@@ -1,38 +1,50 @@
 <html>
 <title>P</title>
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
-    <script src="texture-loop.js"></script>
+    <meta charset="utf-8">
+    <script src="run-shader.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <canvas class="scene"></canvas>
-    <canvas class="texture"></canvas>
+    <canvas></canvas>
     <pre style="display:none" id="vertex">
-        attribute vec2 position; //the position of the point
+        attribute vec2 position;
         varying vec2 vPosition;
-        void main(void) { //pre-built function
+        void main(void) {
             vPosition = position;
-            gl_Position = vec4(position, 0., 1.); //0. is the z, and 1 is w
+            gl_Position = vec4(position, 0.0, 1.0);
         }
     </pre>
     <pre style="display:none" id="fragment">
         precision lowp float;
 
         varying vec2 vPosition;
-        uniform sampler2D sampler2d;
-        uniform float idx;
+        uniform float time;
+        uniform float width;
+        uniform float height;
+        uniform float slider_a;
+        uniform float slider_b;
+        uniform float slider_c;
 
         void main() {
             float pi = 3.14159;
-            float x = vPosition.x*0.02;
-            float y = vPosition.y*0.02;
-            float n = 500.0;
-            float m = 900.0;
+            float x = (vPosition.x / height) * 36.2;
+            float y = (vPosition.y / width)  * 36.2;
+            float n = 762.5 * slider_b;
+            float m = 420.7 * slider_c;
             float a = cos(n * pi * x) * cos(m * pi * y) - cos(m * pi * x) * cos(n * pi * y);
-            vec3 c = mix(vec3(0.1, 0.4, 0.2), vec3(0.8, 0.9, 0.5), floor(a+0.5));
+            vec3 c = mix(
+                vec3(0.137, 0.533, 0.494),
+                vec3(0.757, 0.888, 0.788),
+                floor(a + slider_a));
             gl_FragColor = vec4(c, 1);
         }
     </pre>
+
+    <div id="sliders">
+        <input id="a" type="range" min="0" max="1000" value="500">
+        <input id="b" type="range" min="0" max="1000" value="700">
+        <input id="c" type="range" min="0" max="1000" value="500">
+    </div>
 </body>
 </html>
