@@ -1,5 +1,13 @@
 'use strict';
 
+const HSBToRGB = (h, s, b) => {
+    s /= 100;
+    b /= 100;
+    const k = (n) => (n + h / 60) % 6;
+    const f = (n) => b * (1 - s * Math.max(0, Math.min(k(n), 4 - k(n), 1)));
+    return [f(5), f(3),  f(1)];
+};
+
 const init = function() {
     var dpp = window.devicePixelRatio || 1;
     var canvas = document.querySelector("canvas");
@@ -52,6 +60,10 @@ const init = function() {
     var a = document.querySelector("input#a");
     var b = document.querySelector("input#b");
     var c = document.querySelector("input#c");
+    var d = document.querySelector("input#d");
+    var e = document.querySelector("input#e");
+    var f = document.querySelector("input#f");
+    var g = document.querySelector("input#g");
 
     GL.uniform1f(GL.getUniformLocation(shader_program, "width"), width / dpp);
     GL.uniform1f(GL.getUniformLocation(shader_program, "height"), height / dpp);
@@ -68,6 +80,12 @@ const init = function() {
         GL.uniform1f(GL.getUniformLocation(shader_program, "slider_a"), a.value / 1000.0);
         GL.uniform1f(GL.getUniformLocation(shader_program, "slider_b"), b.value / 1000.0);
         GL.uniform1f(GL.getUniformLocation(shader_program, "slider_c"), c.value / 1000.0);
+        GL.uniform1f(GL.getUniformLocation(shader_program, "slider_d"), d.value);
+        GL.uniform1f(GL.getUniformLocation(shader_program, "slider_e"), e.value);
+        GL.uniform1f(GL.getUniformLocation(shader_program, "slider_d"), f.value);
+        GL.uniform1f(GL.getUniformLocation(shader_program, "slider_e"), g.value);
+        GL.uniform3fv(GL.getUniformLocation(shader_program, "coloura"), HSBToRGB(d.value, f.value, 50))
+        GL.uniform3fv(GL.getUniformLocation(shader_program, "colourb"), HSBToRGB(e.value, g.value, 50))
         GL.drawElements(GL.TRIANGLE_FAN, 4, GL.UNSIGNED_SHORT, 0);
         window.setTimeout(animate, 30);
     };
