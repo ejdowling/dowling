@@ -68,7 +68,7 @@ const init = function() {
     GL.uniform1f(GL.getUniformLocation(shader_program, "width"), width / dpp);
     GL.uniform1f(GL.getUniformLocation(shader_program, "height"), height / dpp);
 
-    var start_time = ((new Date).getTime() * 0.001) + Math.floor(Math.random() * 1000000);
+    var start_time = ((Date.now() * 0.001) + Math.floor(Math.random() * 1000000));
 
     var animate = function() {
         GL.clear(GL.COLOR_BUFFER_BIT);
