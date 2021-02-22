@@ -69,8 +69,7 @@ const init = function() {
     GL.uniform1f(GL.getUniformLocation(shader_program, "height"), height / dpp);
 
     var time =  Math.floor(Math.random() * 100);
-    
-}
+
 
     var animate = function() {
         GL.clear(GL.COLOR_BUFFER_BIT);
