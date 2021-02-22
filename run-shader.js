@@ -68,7 +68,7 @@ const init = function() {
     GL.uniform1f(GL.getUniformLocation(shader_program, "width"), width / dpp);
     GL.uniform1f(GL.getUniformLocation(shader_program, "height"), height / dpp);
 
-    var time =  Math.floor(Math.random() * 100);
+    var time =  Math.floor(Math.random() * 2000);
 
 
     var animate = function() {
