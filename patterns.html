@@ -33,8 +33,8 @@
             float pi = 3.14159;
             float x = (vPosition.x / height) * 36.2;
             float y = (vPosition.y / width)  * 36.2;
-            float n = 762.5 * slider_b*sin(time*0.01);
-            float m = 420.7 * slider_c*cos(time*0.1);
+            float n = 762.5 * slider_b*sin(time*0.0075);
+            float m = 420.7 * slider_c*cos(time*0.07);
             float a = cos(n * pi * x) * cos(m * pi * y) - cos(m * pi * x) * cos(n * pi * y);
             vec3 c = mix(
                 vec3(coloura),
