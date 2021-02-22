@@ -68,14 +68,14 @@ const init = function() {
     GL.uniform1f(GL.getUniformLocation(shader_program, "width"), width / dpp);
     GL.uniform1f(GL.getUniformLocation(shader_program, "height"), height / dpp);
 
-    var start_time = ((Date.now() * 0.001) + Math.floor(Math.random() * 1000000));
+    var start_time =  Math.floor(Math.random() * 100);
 
     var animate = function() {
         GL.clear(GL.COLOR_BUFFER_BIT);
         GL.bindBuffer(GL.ARRAY_BUFFER, vertex_buffer);
         GL.vertexAttribPointer(position, 2, GL.FLOAT, false, 4 * 2, 0);
         GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, face_buffer);
-        var time = ((new Date).getTime() * 0.001) - start_time;
+        var time = start_time;
         GL.uniform1f(GL.getUniformLocation(shader_program, "time"), time);
         GL.uniform1f(GL.getUniformLocation(shader_program, "slider_a"), a.value / 1000.0);
         GL.uniform1f(GL.getUniformLocation(shader_program, "slider_b"), b.value / 1000.0);
@@ -88,8 +88,8 @@ const init = function() {
         GL.uniform3fv(GL.getUniformLocation(shader_program, "colourb"), HSBToRGB(e.value, g.value, 50))
         GL.drawElements(GL.TRIANGLE_FAN, 4, GL.UNSIGNED_SHORT, 0);
         window.setTimeout(animate, 30);
+        start_time += 0.03
     };
-
     animate();
 };
 
