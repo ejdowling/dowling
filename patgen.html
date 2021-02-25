@@ -9,12 +9,9 @@
 <canvas>bobby</canvas>
 <div id="sliders">
     <input id="a" type="range" min="2" max="20" value="5">
-
+    <input id="b" type="range" min="0" max="9" value="1">
 </div>
 <script>
-
-const colors = []
-
 const init = () =>{
     const dpp = window.devicePixelRatio || 1;
     const canvas = document.querySelector("canvas");
@@ -24,14 +21,22 @@ const init = () =>{
     canvas.height = window.innerHeight * dpp;
     const ctx = canvas.getContext('2d');
     const slidera = document.querySelector("input#a");
-    const sliderb = document.querySelector("input#a");
-    const sliderc = document.querySelector("input#a");
-    ctx.scale(50, 50);
+    const sliderb = document.querySelector("input#b");
     ctx.font = "30px Arial";
-    ctx.color = "white"
-    ctx.fillText("Press space for a new pattern", 10, 50);
+    ctx.lineJoin = "round";
 
-
+    const colours = [
+        "#747369",
+        "#d3d0c8",
+        "#f2777a",
+        "#f99157",
+        "#ffcc66",
+        "#99cc99",
+        "#66cccc",
+        "#6699cc",
+        "#cc99cc",
+        "#d27b53",
+    ];
 
     const points = [
         [ 0.000000,  0.000000 ],
@@ -65,20 +70,29 @@ const init = () =>{
         [ 3.000000,  1.732000 ],
     ];
 
+    let walk = [];
+    let scale = canvas.width / 50;
 
-
-    const generate = (e) =>{
-        if (e!= undefined && e.keyCode != 32)return
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const walk = [];
+    const generate = () => {
+        walk = [];
         let lines = slidera.value;
-        for (let i = 0; i < lines; ++i) walk.push(Math.floor(Math.random()*points.length));
-        ctx.strokeStyle = 'coral';
+        for (let i = 0; i < lines; ++i) {
+            const n = Math.floor(Math.random() * points.length);
+            if (!walk.includes(n)) walk.push(n);
+        }
+    };
+
+    const render = () => {
+        ctx.setTransform();
+        ctx.scale(scale, scale);
+        ctx.fillStyle = "#151515";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = colours[sliderb.value];
         ctx.lineWidth = 0.1;
         for (let ty = -3; ty < 3; ++ty) {
                 const rx = 3 * Math.sin(1.04719);
                 const ry = ty * 12 * Math.sin(1.04719);
-            for (let tx = -12; tx < 12; ++tx) {
+            for (let tx = -10; tx < 10; ++tx) {
                 const xoff = rx + tx * 3;
                 const yoff = ry + (tx & 1) * (6 * Math.sin(1.04719));
                 const x = xoff + Math.cos(1.04719);
@@ -90,26 +104,48 @@ const init = () =>{
                     ctx.translate(width/100, height/100);
                     ctx.moveTo(points[walk[0]][0],points[walk[1]][1]);
                     for (let i = 1; i < walk.length; ++i){
-                        ctx.lineTo(points[walk[i]][0],points[walk[i]][1]);  
+                        ctx.lineTo(points[walk[i]][0],points[walk[i]][1]);
                     }
                     ctx.lineTo(points[walk[0]][0],points[walk[1]][1]);
                     ctx.stroke();
                     ctx.rotate(1.0479);
-                    ctx.translate(-width/100, -height/100);           
+                    ctx.translate(-width/100, -height/100);
                 }
-                ctx.restore()    
+                ctx.restore()
             }
         }
     };
-    
-    window.addEventListener('change', generate)
-    window.addEventListener('keydown', generate)
-    generate()
+
+    slidera.addEventListener('input', () => { generate(); render(); });
+    sliderb.addEventListener('input', render);
+    window.addEventListener('keydown', (e) => {
+        if (e.keyCode != 32) return;
+        generate();
+        render();
+    });
+
+    generate();
+    render();
+
+    ctx.save();
+    ctx.setTransform();
+    const text = "Press SPACE for a new pattern.";
+    const metrics = ctx.measureText(text);
+    ctx.fillStyle = "#222222aa";
+    const padding = 40;
+    const w = metrics.width + padding*2;
+    ctx.fillRect(
+        width/2 - (metrics.actualBoundingBoxLeft + padding) - w/2,
+        ((3*height)/4) - (metrics.actualBoundingBoxAscent + padding),
+        metrics.width + padding*2,
+        30 - metrics.actualBoundingBoxDescent + padding*2
+    );
+    ctx.fillStyle = "white";
+    ctx.fillText(text, width/2 - w/2, (3*height)/4);
+    ctx.restore();
 };
 
-
 window.addEventListener('load', init);
-
 </script>
 </body>
 </html>
