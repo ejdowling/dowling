@@ -1,0 +1,115 @@
+<html>
+<title>P</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<canvas>bobby</canvas>
+<div id="sliders">
+    <input id="a" type="range" min="2" max="20" value="5">
+
+</div>
+<script>
+
+const colors = []
+
+const init = () =>{
+    const dpp = window.devicePixelRatio || 1;
+    const canvas = document.querySelector("canvas");
+    const width = window.innerWidth * dpp;
+    const height = window.innerHeight * dpp;
+    canvas.width = window.innerWidth * dpp;
+    canvas.height = window.innerHeight * dpp;
+    const ctx = canvas.getContext('2d');
+    const slidera = document.querySelector("input#a");
+    const sliderb = document.querySelector("input#a");
+    const sliderc = document.querySelector("input#a");
+    ctx.scale(50, 50);
+    ctx.font = "30px Arial";
+    ctx.color = "white"
+    ctx.fillText("Press space for a new pattern", 10, 50);
+
+
+
+    const points = [
+        [ 0.000000,  0.000000 ],
+        [ 0.600000,  0.346800 ],
+        [ 0.600000, -0.353200 ],
+        [ 0.700000,  0.000000 ],
+        [ 1.000000, -0.577400 ],
+        [ 1.000000,  0.000000 ],
+        [ 1.000000,  0.577400 ],
+        [ 1.300000,  0.000000 ],
+        [ 1.400000, -0.350000 ],
+        [ 1.400000,  0.346000 ],
+        [ 1.500000, -0.866000 ],
+        [ 1.500000,  0.866000 ],
+        [ 1.647800, -0.610200 ],
+        [ 1.654600,  0.598200 ],
+        [ 1.726400,  0.996800 ],
+        [ 1.737600, -1.003200 ],
+        [ 1.876600,  0.680000 ],
+        [ 1.879800, -0.696600 ],
+        [ 2.000000,  0.000000 ],
+        [ 2.347600,  0.602200 ],
+        [ 2.354600, -0.614200 ],
+        [ 2.600000,  0.350000 ],
+        [ 2.600000, -0.354000 ],
+        [ 2.704600,  0.000000 ],
+        [ 3.000000, -0.577400 ],
+        [ 3.000000, -1.732000 ],
+        [ 3.000000,  0.000000 ],
+        [ 3.000000,  0.577400 ],
+        [ 3.000000,  1.732000 ],
+    ];
+
+
+
+    const generate = (e) =>{
+        if (e!= undefined && e.keyCode != 32)return
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const walk = [];
+        let lines = slidera.value;
+        for (let i = 0; i < lines; ++i) walk.push(Math.floor(Math.random()*points.length));
+        ctx.strokeStyle = 'coral';
+        ctx.lineWidth = 0.1;
+        for (let ty = -3; ty < 3; ++ty) {
+                const rx = 3 * Math.sin(1.04719);
+                const ry = ty * 12 * Math.sin(1.04719);
+            for (let tx = -12; tx < 12; ++tx) {
+                const xoff = rx + tx * 3;
+                const yoff = ry + (tx & 1) * (6 * Math.sin(1.04719));
+                const x = xoff + Math.cos(1.04719);
+                const y = yoff + Math.sin(1.04719);
+                ctx.save()
+                ctx.translate(x,y)
+                for (let a = 0; a < 6; a++) {
+                    ctx.beginPath();
+                    ctx.translate(width/100, height/100);
+                    ctx.moveTo(points[walk[0]][0],points[walk[1]][1]);
+                    for (let i = 1; i < walk.length; ++i){
+                        ctx.lineTo(points[walk[i]][0],points[walk[i]][1]);  
+                    }
+                    ctx.lineTo(points[walk[0]][0],points[walk[1]][1]);
+                    ctx.stroke();
+                    ctx.rotate(1.0479);
+                    ctx.translate(-width/100, -height/100);           
+                }
+                ctx.restore()    
+            }
+        }
+    };
+    
+    window.addEventListener('change', generate)
+    window.addEventListener('keydown', generate)
+    generate()
+};
+
+
+window.addEventListener('load', init);
+
+</script>
+</body>
+</html>
