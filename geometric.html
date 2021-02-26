@@ -153,9 +153,10 @@ const init = () =>{
     () => { generate(); render(); };
     //action on double tap goes below
     alert('You tapped me Twice !!!');  
+    document.getElementById("double-tap").addEventListener("touchstart", tapHandler);
     }
 
-    document.getElementById("double-tap").addEventListener("touchstart", tapHandler);
+    
 
     var tapedTwice = false;
     generate();
