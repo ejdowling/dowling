@@ -142,23 +142,8 @@ const init = () =>{
         generate();
         render();
     });
-    //window.addEventListener('touchstart', () => { generate(); render(); });
-    
-    function tapHandler(event) {
-        if(!tapedTwice) {
-            tapedTwice = true;
-            setTimeout( function() { tapedTwice = false; }, 300 );
-            return false;
-        }
-    () => { generate(); render(); };
-    //action on double tap goes below
-    alert('You tapped me Twice !!!');  
-    document.getElementById("double-tap").addEventListener("touchstart", tapHandler);
-    }
+    window.addEventListener('dblclick', () => { generate(); render(); });
 
-    
-
-    var tapedTwice = false;
     generate();
     render();
 
