@@ -142,14 +142,30 @@ const init = () =>{
         generate();
         render();
     });
-    window.addEventListener('touchstart', () => { generate(); render(); });
+    //window.addEventListener('touchstart', () => { generate(); render(); });
+    
+    function tapHandler(event) {
+        if(!tapedTwice) {
+            tapedTwice = true;
+            setTimeout( function() { tapedTwice = false; }, 300 );
+            return false;
+    }
+    () => { generate(); render(); };
+    //action on double tap goes below
+    alert('You tapped me Twice !!!');
+    
+    document.getElementById("double-tap").addEventListener("touchstart", tapHandler);
 
+    var tapedTwice = false;
+
+   
+}
     generate();
     render();
 
     ctx.save();
     ctx.setTransform();
-    const text = "Press SPACE/ tap screen for a new pattern.";
+    const text = "Press SPACE/ double tap screen for a new pattern.";
     const metrics = ctx.measureText(text);
     ctx.fillStyle = "#222222aa";
     const padding = 40;
