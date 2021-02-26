@@ -142,13 +142,14 @@ const init = () =>{
         generate();
         render();
     });
+    window.addEventListener('touchend', () => { generate(); render(); });
 
     generate();
     render();
 
     ctx.save();
     ctx.setTransform();
-    const text = "Press SPACE for a new pattern.";
+    const text = "Press SPACE/ tap screen for a new pattern.";
     const metrics = ctx.measureText(text);
     ctx.fillStyle = "#222222aa";
     const padding = 40;
