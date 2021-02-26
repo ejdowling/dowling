@@ -149,17 +149,15 @@ const init = () =>{
             tapedTwice = true;
             setTimeout( function() { tapedTwice = false; }, 300 );
             return false;
-    }
+        }
     () => { generate(); render(); };
     //action on double tap goes below
-    alert('You tapped me Twice !!!');
-    
+    alert('You tapped me Twice !!!');  
+    }
+
     document.getElementById("double-tap").addEventListener("touchstart", tapHandler);
 
     var tapedTwice = false;
-
-   
-}
     generate();
     render();
 
