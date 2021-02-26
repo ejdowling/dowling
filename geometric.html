@@ -105,10 +105,10 @@ const init = () =>{
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = colours[sliderb.value];
         ctx.lineWidth = 0.12;
-        for (let ty = -3; ty < 3; ++ty) {
+        for (let ty = Math.floor(-canvas.height/600); ty < Math.floor(canvas.height/600); ++ty) {
                 const rx = 3 * Math.sin(1.04719);
                 const ry = ty * 12 * Math.sin(1.04719);
-            for (let tx = -10; tx < 10; ++tx) {
+            for (let tx = Math.floor(-canvas.width/250); tx < Math.floor(canvas.width/300); ++tx) {
                 const xoff = rx + tx * 3;
                 const yoff = ry + (tx & 1) * (6 * Math.sin(1.04719));
                 const x = xoff + Math.cos(1.04719);
