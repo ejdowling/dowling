@@ -26,8 +26,6 @@
         uniform float slider_a;
         uniform float slider_b;
         uniform float slider_c;
-        uniform vec3 coloura;
-        uniform vec3 colourb;
 
         void main() {
             float pi = 3.14159;
@@ -37,8 +35,8 @@
             float m = 420.7 * slider_c * cos(time*0.07);
             float a = cos(n * pi * x) * cos(m * pi * y) - cos(m * pi * x) * cos(n * pi * y);
             vec3 c = mix(
-                vec3(coloura),
-                vec3(colourb),
+                vec3(0.0, 0.45, 0.6),
+                vec3(0.0,0.0,0.0),
                 floor(a + slider_a));
             gl_FragColor = vec4(c, 1);
         }
@@ -48,10 +46,6 @@
         <input id="a" type="range" min="0" max="1000" value="1000">
         <input id="b" type="range" min="0" max="2000" value="1000">
         <input id="c" type="range" min="0" max="2000" value="1000">
-        <input id="d" type="range" min="0" max="360" value="360">
-        <input id="e" type="range" min="0" max="360" value="360">
-        <input id="f" type="range" min="0" max="100" value="50">
-        <input id="g" type="range" min="0" max="100" value="100">
     </div>
 </body>
 </html>
