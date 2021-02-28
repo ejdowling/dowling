@@ -18,6 +18,16 @@ a {color: #6699cc;}
 ;
 </style>
 
+<script> 
+    function counter_fn(){
+        var counter = $('#cntr span').text(); // geting value from span
+        var count = 0;
+        count = parseInt(counter.value);
+        count = count+1;
+        counter.innerHTML = parseInt(count);
+   }
+   window.onload = counter_fn;  
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -49,5 +59,10 @@ Many thanks to my good friend <a href="https://benedicthenshaw.com/" target="_bl
 
 
     </div>
+    <div id="cntr">  
+        <span>0</span>
+    </div>
 </body>
+
+</div>
 </html>
