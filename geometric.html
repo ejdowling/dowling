@@ -41,7 +41,7 @@ const init = () =>{
     ];
 
     const colours2 = [
-        "#151515",    
+        "#151515",
         "#747369",
         "#d3d0c8",
         "#f2777a",
@@ -87,7 +87,7 @@ const init = () =>{
     ];
 
     let walk = [];
-    let scale = canvas.width / 70;
+    let scale = Math.sqrt((canvas.width*canvas.width)+(canvas.height*canvas.height)) / 70;
 
     const generate = () => {
         walk = [];
