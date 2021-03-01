@@ -10,7 +10,7 @@
 <div id="sliders">
     <input id="a" type="range" min="2" max="20" value="5">
     <input id="b" type="range" min="0" max="8" value="7">
-    <input id="c" type="range" min="0" max="9" value="0">
+    <input type="checkbox" id="c">
 
 </div>
 <script>
@@ -24,7 +24,7 @@ const init = () =>{
     const ctx = canvas.getContext('2d');
     const slidera = document.querySelector("input#a");
     const sliderb = document.querySelector("input#b");
-    const sliderc = document.querySelector("input#c");
+    const checkbox = document.querySelector("input#c");
     ctx.font = "30px Arial";
     ctx.lineJoin = "round";
 
@@ -99,6 +99,7 @@ const init = () =>{
     };
 
     const render = () => {
+        var checkBox = document.getElementById("c");
         ctx.setTransform();
         ctx.scale(scale, scale);
         ctx.fillStyle = "#121212";
@@ -122,7 +123,12 @@ const init = () =>{
                     for (let i = 1; i < walk.length; ++i){
                         ctx.lineTo(points[walk[i]][0],points[walk[i]][1]);
                     }
-                    ctx.fillStyle = colours2[sliderc.value];
+                    if (checkBox.checked == true){
+                        ctx.fillStyle = "#121212";
+                        } else {
+                        ctx.fillStyle = colours[sliderb.value];
+                        
+                }
                     ctx.fill();
                     ctx.closePath();
                     ctx.stroke();
@@ -136,9 +142,9 @@ const init = () =>{
 
     slidera.addEventListener('input', () => { generate(); render(); });
     sliderb.addEventListener('input', render);
-    sliderc.addEventListener('input', render);
+    checkbox.addEventListener('input', render)
     window.addEventListener('keydown', (e) => {
-        if (e.keyCode != 32) return;
+        if (e.keyCode != 13) return;
         generate();
         render();
     });
@@ -149,7 +155,7 @@ const init = () =>{
 
     ctx.save();
     ctx.setTransform();
-    const text = "Press SPACE or double tap screen for a new pattern.";
+    const text = "Press ENTER or double tap screen for a new pattern.";
     const metrics = ctx.measureText(text);
     ctx.fillStyle = "#222222aa";
     const padding = 40;
