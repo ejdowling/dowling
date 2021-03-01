@@ -10,7 +10,7 @@
 <div id="sliders">
     <input id="a" type="range" min="3" max="20" value="5">
     <input id="b" type="range" min="0" max="8" value="7">
-    <input type="checkbox" id="c">
+    <input type="checkbox" id="c" checked="checked">
 
 </div>
 <script>
@@ -124,9 +124,9 @@ const init = () =>{
                         ctx.lineTo(points[walk[i]][0],points[walk[i]][1]);
                     }
                     if (checkBox.checked == true){
-                        ctx.fillStyle = "#121212";
-                        } else {
                         ctx.fillStyle = colours[sliderb.value];
+                        } else {
+                            ctx.fillStyle = "#121212";
                         
                 }
                     ctx.fill();
