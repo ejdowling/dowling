@@ -82,12 +82,12 @@ const init = () =>{
     ];
 
     const parameters = window.location.search.split(",");
-    let seed = parameters[0].substring(1);
+    const seed = parameters[0].substring(1);
     slidera.value = Number(parameters[1]) || 5;
     sliderb.value = Number(parameters[2]) || 7;
     checkbox.checked = Boolean(Number(parameters[3]));
 
-    let raw_seed = new Uint32Array(4);
+    let raw_seed = new Uint32Array(1);
     if (!seed) {
         window.crypto.getRandomValues(raw_seed);
     } else {
@@ -171,24 +171,24 @@ const init = () =>{
     checkbox.addEventListener('input', render)
     copy_button.addEventListener('click', () => {
         const new_url = new URL(window.location);
-        const search = `${window.btoa(raw_seed)},${slidera.value},${sliderb.value},${checkbox.checked&1}`;
+        const search = `${window.btoa(raw_seed).replaceAll("=","")},${slidera.value},${sliderb.value},${checkbox.checked&1}`;
         new_url.search = search;
-        window.location.search = search;
         navigator.clipboard.writeText(new_url);
     });
     window.addEventListener('keydown', (e) => {
-        if (e.keyCode != 13) return;
+        if (e.keyCode != 32) return;
+        event.preventDefault();
         generate();
         render();
     });
-    window.addEventListener('dblclick', () => { generate(); render(); });
+    canvas.addEventListener('dblclick', () => { generate(); render(); });
 
     generate(true);
     render();
 
     ctx.save();
     ctx.setTransform();
-    const text = "Press ENTER or double tap screen for a new pattern.";
+    const text = "Press SPACE or double tap screen for a new pattern.";
     const metrics = ctx.measureText(text);
     ctx.fillStyle = "#222222aa";
     const padding = 40;
@@ -202,6 +202,8 @@ const init = () =>{
     ctx.fillStyle = "white";
     ctx.fillText(text, width/2 - w/2, (3*height)/4);
     ctx.restore();
+
+    setTimeout(render, 5000);
 };
 
 window.addEventListener('load', init);
