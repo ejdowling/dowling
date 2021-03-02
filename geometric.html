@@ -71,7 +71,15 @@ const init = () =>{
         [ 3.000000,  0.577400 ],
         [ 3.000000,  1.732000 ],
     ];
-
+    function xoshiro128ss(a, b, c, d) {
+    return function() {
+        var t = b << 9, r = a * 5; r = (r << 7 | r >>> 25) * 9;
+        c ^= a; d ^= b;
+        b ^= c; a ^= d; c ^= t;
+        d = d << 11 | d >>> 21;
+        return (r >>> 0) / 4294967296;
+    }
+}
     let walk = [];
     let scale = Math.sqrt((canvas.width*canvas.width)+(canvas.height*canvas.height)) / 80;
 
