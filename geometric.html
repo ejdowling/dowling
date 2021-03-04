@@ -63,7 +63,7 @@ const init = () =>{
     const checkbox = document.querySelector("input#c");
     const copy_button = document.querySelector("button#copy");
 
-    const parameters = window.location.search.substring(1);
+    const parameters = window.location.search.split("&")[0].substring(1);
     const seed_string = parameters.substring(0, parameters.length-4);
     slidera.value = Number(parameters.substring(parameters.length-4, parameters.length-2)) || 5;
     sliderb.value = Number(parameters.substring(parameters.length-2, parameters.length-1)) || 7;
