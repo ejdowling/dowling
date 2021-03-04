@@ -37,15 +37,17 @@ const points = [
     [ 3.000000,  1.732000 ],
 ];
 
-let seed = new Uint32Array(4);
+let seed;
 const rand = () => {
-    const rot = (x, k) => (x << k) | (x >> (32 - k));
-    const e = (seed[0] - rot(seed[1], 27)) >>> 0;
-    seed[0] = (seed[1] ^ rot(seed[2], 17)) >>> 0;
-    seed[1] = (seed[2] + seed[3]) >>> 0;
-    seed[2] = (seed[3] + e) >>> 0;
-    seed[3] = (e + seed[0]) >>> 0;
-    return seed[3] / 4294967296.0;
+    seed = seed * 16807 % 2147483647;
+    return (seed - 1) / 2147483646;
+};
+
+const new_seed = () => {
+    const r = new Uint32Array(1);
+    window.crypto.getRandomValues(r);
+    seed = r[0] % 2147483647;
+    if (seed <= 0) seed += 2147483646;
 };
 
 const init = () =>{
@@ -70,12 +72,12 @@ const init = () =>{
     checkbox.checked = Boolean(Number(parameters.substring(parameters.length-1)));
 
     if (!seed_string) {
-        window.crypto.getRandomValues(seed);
+        new_seed();
     } else {
         try {
             seed = Uint32Array.from(window.atob(seed_string).split(','));
         } catch {
-            window.crypto.getRandomValues(seed);
+            new_seed();
         }
     }
 
@@ -83,7 +85,7 @@ const init = () =>{
     let scale = Math.sqrt((canvas.width*canvas.width)+(canvas.height*canvas.height)) / 80;
 
     const generate = (stable) => {
-        if (stable) seed = Uint32Array.from(last_seed); else last_seed = Uint32Array.from(seed);
+        if (stable) seed = last_seed; else last_seed = seed;
         walk = [];
         let lines = slidera.value;
         for (let i = 0; i < lines; ++i) {
