@@ -138,7 +138,7 @@ const init = () =>{
     checkbox.addEventListener('input', render)
     copy_button.addEventListener('click', () => {
         const new_url = new URL(window.location);
-        const search = `${window.btoa(last_seed)},${slidera.value},${sliderb.value},${checkbox.checked&1}`;
+        const search = `${window.btoa(last_seed).replaceAll("=","")},${slidera.value},${sliderb.value},${checkbox.checked&1}`;
         new_url.search = search;
         navigator.clipboard.writeText(new_url);
     });
