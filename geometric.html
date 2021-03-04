@@ -63,11 +63,11 @@ const init = () =>{
     const checkbox = document.querySelector("input#c");
     const copy_button = document.querySelector("button#copy");
 
-    const parameters = window.location.search.split(",");
-    const seed_string = parameters[0].substring(1);
-    slidera.value = Number(parameters[1]) || 5;
-    sliderb.value = Number(parameters[2]) || 7;
-    checkbox.checked = Boolean(Number(parameters[3]));
+    const parameters = window.location.search.substring(1);
+    const seed_string = parameters.substring(0, parameters.length-4);
+    slidera.value = Number(parameters.substring(parameters.length-4, parameters.length-2));
+    sliderb.value = Number(parameters.substring(parameters.length-2, parameters.length-1));
+    checkbox.checked = Boolean(Number(parameters.substring(parameters.length-1)));
 
     if (!seed_string) {
         window.crypto.getRandomValues(seed);
@@ -138,7 +138,8 @@ const init = () =>{
     checkbox.addEventListener('input', render)
     copy_button.addEventListener('click', () => {
         const new_url = new URL(window.location);
-        const search = `${window.btoa(last_seed).replaceAll("=","")},${slidera.value},${sliderb.value},${checkbox.checked&1}`;
+        const a = slidera.value < 10 ? `0${slidera.value}` : slidera.value;
+        const search = `${window.btoa(last_seed).replaceAll("=","")}${a}${sliderb.value}${checkbox.checked&1}`;
         new_url.search = search;
         navigator.clipboard.writeText(new_url);
     });
