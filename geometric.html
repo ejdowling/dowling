@@ -9,13 +9,13 @@
 <canvas>bobby</canvas>
 <div id="sliders">
     <input id="a" type="range" min="3" max="20" value="5">
-    <input id="b" type="range" min="0" max="8" value="7">
+    <input id="b" type="range" min="1" max="9" value="8">
     <input type="checkbox" id="c" checked="checked">
     <button id="copy">copy link</button>
 </div>
 <script>
 const colours = [
-    "#747369","#d3d0c8","#f2777a","#f99157","#ffcc66",
+    "0", "#747369","#d3d0c8","#f2777a","#f99157","#ffcc66",
     "#99cc99","#66cccc","#4f7cac","#cc99cc",
 ];
 
@@ -68,7 +68,7 @@ const init = () =>{
     const parameters = window.location.search.split("&")[0].substring(1);
     const seed_string = parameters.substring(0, parameters.length-4);
     slidera.value = Number(parameters.substring(parameters.length-4, parameters.length-2)) || 5;
-    sliderb.value = Number(parameters.substring(parameters.length-2, parameters.length-1)) || 7;
+    sliderb.value = Number(parameters.substring(parameters.length-2, parameters.length-1)) || 8;
     checkbox.checked = Boolean(Number(parameters.substring(parameters.length-1)));
 
     if (!seed_string) {
