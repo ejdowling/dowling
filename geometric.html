@@ -95,7 +95,6 @@ const init = () =>{
     };
 
     const render = () => {
-        var checkBox = document.getElementById("c");
         ctx.setTransform();
         ctx.scale(scale, scale);
         if (sliderb.value == 9) {
@@ -123,13 +122,9 @@ const init = () =>{
                     for (let i = 1; i < walk.length; ++i){
                         ctx.lineTo(points[walk[i]][0],points[walk[i]][1]);
                     }
-                    if (checkBox.checked) {
-                        if (sliderb.value == 9) {
-                        ctx.fillStyle = "#000000";
-                    } else {
+                    if (checkbox.checked) {
                         ctx.fillStyle = colours[sliderb.value];
                     }
-                }
                     ctx.fill();
                     ctx.closePath();
                     ctx.stroke();
