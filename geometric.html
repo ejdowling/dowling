@@ -124,11 +124,10 @@ const init = () =>{
                         ctx.lineTo(points[walk[i]][0],points[walk[i]][1]);
                     }
                     if (checkBox.checked) {
-                        ctx.fillStyle = colours[sliderb.value];
                         if (sliderb.value == 9) {
                         ctx.fillStyle = "#000000";
                     } else {
-                        ctx.fillStyle = "#121212";
+                        ctx.fillStyle = colours[sliderb.value];
                     }
                 }
                     ctx.fill();
