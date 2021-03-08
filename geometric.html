@@ -9,14 +9,14 @@
 <canvas>bobby</canvas>
 <div id="sliders">
     <input id="a" type="range" min="3" max="20" value="5">
-    <input id="b" type="range" min="1" max="9" value="3">
+    <input id="b" type="range" min="1" max="10" value="3">
     <input type="checkbox" id="c" checked="checked">
     <button id="copy">copy link</button>
 </div>
 <script>
 const colours = [
     "0", "#747369","#d3d0c8","#f2777a","#f99157","#ffcc66",
-    "#99cc99","#66cccc","#4f7cac","#cc99cc",
+    "#99cc99","#66cccc","#4f7cac","#cc99cc", "#000000",
 ];
 
 const points = [
@@ -98,7 +98,11 @@ const init = () =>{
         var checkBox = document.getElementById("c");
         ctx.setTransform();
         ctx.scale(scale, scale);
-        ctx.fillStyle = "#121212";
+        if (sliderb.value == 10) {
+            ctx.fillStyle = "#ffffff";
+            } else {
+            ctx.fillStyle = "#121212";
+            }
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = colours[sliderb.value];
         ctx.lineWidth = 0.12;
@@ -121,9 +125,12 @@ const init = () =>{
                     }
                     if (checkBox.checked) {
                         ctx.fillStyle = colours[sliderb.value];
-                    } else {
+                        if (sliderb.value == 10) {
+                        ctx.fillStyle = "#000000";
+                        } else {
                         ctx.fillStyle = "#121212";
                     }
+                }
                     ctx.fill();
                     ctx.closePath();
                     ctx.stroke();
