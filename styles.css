@@ -19,7 +19,7 @@ input {
 
 input#c {display:inline;}
 button {display:inline;}
-
+input#c2{display:inline}
 canvas {
     width: 100%;
     height: 100%;

@@ -8,9 +8,10 @@
 <body>
 <canvas>bobby</canvas>
 <div id="sliders">
-    <input id="a" type="range" min="3" max="20" value="5">
-    <input id="b" type="range" min="0" max="9" value="2">
-    <input type="checkbox" id="c" checked="checked">
+    <input id="a" type="range" min="3" max="20" value="5" title="complexity">
+    <input id="b" type="range" min="0" max="9" value="2" title="colour">
+    <input type="checkbox" id="c" title="fill pattern">
+    <input type="checkbox" id="c2" checked="checked" title="12 fold symmetry">
     <button id="copy">copy link</button>
 </div>
 <script>
@@ -35,6 +36,27 @@ const points = [
     [ 3.000000, -0.577400 ],[ 3.000000, -1.732000 ],
     [ 3.000000,  0.000000 ],[ 3.000000,  0.577400 ],
     [ 3.000000,  1.732000 ],
+];
+const points2 = [
+    [ 0.000000,  0.000000 ],
+    [ 0.600000, -0.353200 ],
+    [ 0.700000,  0.000000 ],
+    [ 1.000000, -0.577400 ],
+    [ 1.000000,  0.000000 ],
+    [ 1.300000,  0.000000 ],
+    [ 1.400000, -0.350000 ],
+    [ 1.500000, -0.866000 ],
+    [ 1.647800, -0.610200 ],
+    [ 1.737600, -1.003200 ],
+    [ 1.879800, -0.696600 ],
+    [ 2.000000,  0.000000 ],
+    [ 2.354600, -0.614200 ],
+    [ 2.600000, -0.354000 ],
+    [ 2.704600,  0.000000 ],
+    [ 3.000000, -0.577400 ],
+    [ 3.000000, -1.732000 ],
+    [ 3.000000,  0.000000 ],
+    
 ];
 
 let seed;
@@ -63,14 +85,15 @@ const init = () =>{
     const slidera = document.querySelector("input#a");
     const sliderb = document.querySelector("input#b");
     const checkbox = document.querySelector("input#c");
+    const checkbox2 = document.querySelector("input#c2");
     const copy_button = document.querySelector("button#copy");
 
     const parameters = window.location.search.split("&")[0].substring(1);
-    const seed_string = parameters.substring(0, parameters.length-4);
-    slidera.value = Number(parameters.substring(parameters.length-4, parameters.length-2)) || 5;
-    sliderb.value = Number(parameters.substring(parameters.length-2, parameters.length-1) || 1);
-    checkbox.checked = Boolean(Number(parameters.substring(parameters.length-1)));
-
+    const seed_string = parameters.substring(0, parameters.length-5);
+    slidera.value = Number(parameters.substring(parameters.length-5, parameters.length-3)) || 5;
+    sliderb.value = Number(parameters.substring(parameters.length-3, parameters.length-2) || 1);
+    checkbox.checked = Boolean(Number(parameters.substring(parameters.length-2, parameters.length-1)));
+    checkbox2.checked = Boolean(Number(parameters.substring(parameters.length-1)));
     if (!seed_string) {
         new_seed();
     } else {
@@ -89,9 +112,13 @@ const init = () =>{
         walk = [];
         let lines = slidera.value;
         for (let i = 0; i < lines; ++i) {
-            const n = Math.floor(rand() * points.length);
-            if (!walk.includes(n)) walk.push(n);
-        }
+            let y = points;
+            if (checkbox2.checked) {y = points2};
+            const n = Math.floor(rand() * y.length);
+            if (!walk.includes(n)) walk.push(n);}
+        
+
+        
     };
 
     const render = () => {
@@ -115,20 +142,32 @@ const init = () =>{
                 const y = yoff + Math.sin(1.04719);
                 ctx.save();
                 ctx.translate(x,y);
-                for (let a = 0; a < 6; a++) {
+                let j = 6;
+                if (checkbox2.checked)j=12;
+                for (let a = 0; a < j; a++) {
+                    let h = points;
+                    if (checkbox2.checked) {h = points2};
                     ctx.beginPath();
                     ctx.translate(canvas.width/100, canvas.height/100);
-                    ctx.moveTo(points[walk[0]][0],points[walk[1]][1]);
+                    ctx.moveTo(h[walk[0]][0],h[walk[1]][1]);
                     for (let i = 1; i < walk.length; ++i){
-                        ctx.lineTo(points[walk[i]][0],points[walk[i]][1]);
+                        ctx.lineTo(h[walk[i]][0],h[walk[i]][1]);
                     }
                     if (checkbox.checked) {
                         ctx.fillStyle = colours[sliderb.value];
+                        ctx.fill();
                     }
-                    ctx.fill();
+                    
+                    let angle = Math.PI/3;
+                    if (checkbox2.checked){
+                        angle = Math.PI/(3);
+                        if(a%6 == 0) ctx.scale(1,-1);
+
+                    }
+                    ctx.rotate(angle);
                     ctx.closePath();
                     ctx.stroke();
-                    ctx.rotate(1.0479);
+                    
                     ctx.translate(-canvas.width/100, -canvas.height/100);
                 }
                 ctx.restore();
@@ -139,10 +178,11 @@ const init = () =>{
     slidera.addEventListener('input', () => { generate(true); render(); });
     sliderb.addEventListener('input', render);
     checkbox.addEventListener('input', render)
+    checkbox2.addEventListener('input', () => { generate(true); render(); });
     copy_button.addEventListener('click', () => {
         const new_url = new URL(window.location);
         const a = slidera.value < 10 ? `0${slidera.value}` : slidera.value;
-        const search = `${last_seed}${a}${sliderb.value}${checkbox.checked&1}`;
+        const search = `${last_seed}${a}${sliderb.value}${checkbox.checked&1}${checkbox2.checked&1}`;
         new_url.search = search;
         navigator.clipboard.writeText(new_url);
     });
