@@ -11,7 +11,7 @@
     <input id="a" type="range" min="3" max="20" value="5" title="complexity">
     <input id="b" type="range" min="0" max="9" value="2" title="colour">
     <input type="checkbox" id="c" title="fill pattern">
-    <input type="checkbox" id="c2" checked="checked" title="12 fold symmetry">
+    <input type="checkbox" id="c2" title="12 fold symmetry" checked>
     <button id="copy">copy link</button>
 </div>
 <script>
@@ -93,7 +93,7 @@ const init = () =>{
     slidera.value = Number(parameters.substring(parameters.length-5, parameters.length-3)) || 5;
     sliderb.value = Number(parameters.substring(parameters.length-3, parameters.length-2) || 1);
     checkbox.checked = Boolean(Number(parameters.substring(parameters.length-2, parameters.length-1)));
-    checkbox2.checked = Boolean(Number(parameters.substring(parameters.length-1)));
+    checkbox2.checked = Boolean(Number(parameters.substring(parameters.length-1))) || 1;
     if (!seed_string) {
         new_seed();
     } else {
