@@ -10,7 +10,7 @@
 <div id="sliders">
     <a href="/" class="button4" style="background-color:#121212">Home</a>
     <input id="a" type="range" min="3" max="20" value="5" title="complexity">
-    <input id="b" type="range" min="0" max="9" value="2" title="colour">
+    <input id="b" type="range" min="0" max="9" value="9" title="colour">
     <input type="checkbox" id="c" title="fill pattern">
     <input type="checkbox" id="c2" title="12 fold symmetry" checked>
     <button id="copy">copy link</button>
@@ -92,7 +92,7 @@ const init = () =>{
     const parameters = window.location.search.split("&")[0].substring(1);
     const seed_string = parameters.substring(0, parameters.length-5);
     slidera.value = Number(parameters.substring(parameters.length-5, parameters.length-3)) || 5;
-    sliderb.value = Number(parameters.substring(parameters.length-3, parameters.length-2) || 1);
+    sliderb.value = Number(parameters.substring(parameters.length-3, parameters.length-2) || 9);
     checkbox.checked = Boolean(Number(parameters.substring(parameters.length-2, parameters.length-1)));
     checkbox2.checked = Boolean(Number(parameters.substring(parameters.length-1))) || 1;
     if (!seed_string) {
