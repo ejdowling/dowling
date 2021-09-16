@@ -93,7 +93,7 @@ const init = () =>{
     const seed_string = parameters.substring(0, parameters.length-5);
     slidera.value = Number(parameters.substring(parameters.length-5, parameters.length-3)) || 5;
     sliderb.value = Number(parameters.substring(parameters.length-3, parameters.length-2) || 9);
-    checkbox.checked = Boolean(Number(parameters.substring(parameters.length-2, parameters.length-1)));
+    checkbox.checked = Boolean(Number(parameters.substring(parameters.length-2, parameters.length-1))) || 1;
     checkbox2.checked = Boolean(Number(parameters.substring(parameters.length-1))) || 1;
     if (!seed_string) {
         new_seed();
